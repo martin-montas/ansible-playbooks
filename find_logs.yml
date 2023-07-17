@@ -1,0 +1,10 @@
+---
+- name: test
+  hosts: nebula_server
+  tasks:
+
+    - name: display multiple file contents
+      ansible.builtin.debug: 
+      with_file:
+        - "/var/log/dpkg.log"
+
