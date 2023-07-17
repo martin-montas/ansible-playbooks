@@ -1,0 +1,10 @@
+---
+- name: display file
+  hosts: localhost
+  tasks:
+
+    - name: display multiple file contents
+      ansible.builtin.debug: var=item
+      with_file:
+        - "~/.zshrc"
+
