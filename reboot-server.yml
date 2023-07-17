@@ -1,0 +1,16 @@
+---
+  - name: "reboot nodes"
+    hosts: all
+
+    tasks:
+      - name: "reboot servers"
+        become: yes
+        shell: |
+            reboot
+        register: ERR
+
+      - name: "display error of trying to reboot"
+        debug:
+          msg: "{{ERR.stdout}}"
+
+
