@@ -1,0 +1,12 @@
+---
+  - name: start the cron.service with ansible (just for practice)
+    hosts: all
+    tasks:
+      - name: start service
+        systemd:
+          name: cron.service
+          state: started
+          enabled: yes
+
+        become: yes 
+        become_user: root
