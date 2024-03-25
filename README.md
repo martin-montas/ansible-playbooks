@@ -1,2 +1,2 @@
 # --ansible-playbooks
-group of playbooks for ansible 
+Group of playbooks for ansible developed for common IT task of my homelab.
