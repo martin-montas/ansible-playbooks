@@ -1,0 +1,22 @@
+---
+- name: Appends Auditd Rules
+  hosts: _PI_SERVERS
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Copy audit.rules
+      copy:
+        # define your input here
+        content: |
+          -w /etc/sudoers -p wa -k sudoers_changes
+          -a always,exit -F arch=b64 -S setuid -k setuid_activity
+          -a always,exit -F arch=b32 -S setuid -k setuid_activity
+
+        # define the file for the input
+        dest: /etc/audit/rules.d/audit.rules
+
+    - name: Restart the service 
+      service:
+        name: auditd
+        state: restarted

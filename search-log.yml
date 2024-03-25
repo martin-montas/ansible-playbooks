@@ -1,0 +1,15 @@
+---
+- name: checks the given lines in a log file 
+  hosts: 10.0.0.25    #_PI_SERVER
+  become: true        # Run tasks with sudo (root) privileges
+  gather_facts: false
+  vars:
+    LOG_FILE: /var/log/dpkg.log
+  tasks:
+    - name: tail the log a log file to debug
+      command:  tail    {{ LOG_FILE }}
+      register: command_output
+
+    - name: Display Command Output
+      debug:
+        var: command_output.stdout_lines

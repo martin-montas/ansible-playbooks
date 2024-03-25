@@ -1,0 +1,20 @@
+---
+- name: install a debian packet through Apt
+  hosts: # _PI_SERVER
+  become: true
+  gather_facts: false
+  vars:
+    PROGRAM: auditd
+
+  tasks:
+    - name: Install Auditd Package
+      ansible.builtin.apt:
+        name: "{{ PROGRAM }}"
+        state: present
+      register: output
+
+    - name: Display Command Output
+      debug:
+        var: output.stdout_lines
+
+
