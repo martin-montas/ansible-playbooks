@@ -1,0 +1,6 @@
+---
+- name: Ping Servers
+  hosts: PI_SERVERS  # Target all hosts from the inventory file
+  tasks:
+    - name: Ping each server
+      ping:
