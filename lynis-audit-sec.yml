@@ -1,0 +1,37 @@
+---
+- name: Sets up Lynis on each server and runs it on the whole system
+  hosts: _PI_SERVERS
+  become: true
+  gather_facts: false
+
+  tasks:
+    #############################################
+    #             INSTALL Git                   #
+    #############################################
+    - name: Install Git Package
+      ansible.builtin.apt:
+        name: git 
+        state: present
+      register: output
+
+    #############################################
+    #             CLONE THE LYNIS               #
+    #############################################
+    - name: Example clone the Lynis repo
+      ansible.builtin.git:
+        repo: https://github.com/CISOfy/lynis.git
+        dest: $HOME/tmp/
+        single_branch: yes
+        version: master
+
+    #############################################
+    #              RUNS LYNIS                   #
+    #############################################
+    - name: This command will run lynis on quick and on the background
+      ansible.builtin.shell: ./lynis audit system &
+      args:
+        chdir: $HOME/tmp/
+
+
+
+
