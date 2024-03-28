@@ -1,0 +1,40 @@
+---
+#   HOW IT WORKS:
+#
+#       This Ansible script works by compressing a directory on the master node then creating the 
+#       necessary directories and copying the file to the remote hosts.
+#
+#
+#       Coder: Martin Montas
+#       Thu Mar 28 2024
+#
+
+
+- name: Template File
+  hosts: PI_SERVERS
+  become: false
+  gather_facts: false
+  vars:
+    BACK_DIR: ~/tmp_dir/
+
+  tasks:
+    - name: Get today's date
+      set_fact:
+        date: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+
+    - name: compress directory on localhost
+      shell: tar -zcvf archive_{{ date }}.tar.gz {{ BACK_DIR }}
+      delegate_to: localhost
+      register: compressed_ouput
+
+    - name: Ensure destination directory exists
+      file:
+        path: $HOME/backup_ansible/
+        state: directory
+        mode: 0755  
+
+    - name: Copy compressed archive to remote machines
+      copy:
+        src:  archive_{{ date }}.tar.gz
+        dest: $HOME/backup_ansible/
+
